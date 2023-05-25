@@ -1,0 +1,12 @@
+import bs4
+import requests
+# from tqdm import tqdm
+import pandas as pd
+base_url = "https://sacred-texts.com/hin/rvsan/"
+url_book=base_url+"rvi"+str(1).zfill(2)
+r = requests.get(url_book)
+r.encoding = 'utf-8'
+soup = bs4.BeautifulSoup(r.text, 'html.parser')
+br_tags = soup.find_all('br')
+start = len(br_tags) 
+print(start)
