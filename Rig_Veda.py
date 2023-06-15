@@ -102,7 +102,7 @@ for i in range(1,11):
         if result:
             result_string += result + "\n"
 
-with open("test1.tsv", "w",encoding='utf-8') as outfile:
+with open("Rigveda.tsv", "w",encoding='utf-8') as outfile:
     outfile.write(result_string)
 
-df = pd.read_csv("test1.tsv", sep='\t')
+df = pd.read_csv("Rigveda.tsv", sep='\t')
