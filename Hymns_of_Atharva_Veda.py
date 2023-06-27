@@ -39,7 +39,7 @@ def get_hymn(hymn_no, result):
     return result
         
 
-result = ""
+result = "Text_no"+"\t"+"Translation"+"\n"
 for i in range(1,21):
     url_book=base_url+"avbook"+str(i).zfill(2)+".htm"
     req = requests.get(url_book)

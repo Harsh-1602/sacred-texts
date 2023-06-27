@@ -23,14 +23,14 @@ r=requests.get(base_url+"index.htm")
 r.encoding = 'utf-8'
 soup = bs4.BeautifulSoup(r.text, 'html.parser')
 # print(soup.text)
-text=""
+text="Hymn_No"+"\t"+"Translation"+"\n"
 links=soup.find_all('a')[7:]
 for link in links:
     if(link.get("href")!= None):
         new_url=base_url+str(link.get("href"))
 #         print(new_url)
         text+=get_text(new_url)+"\n"
-# print(text)
+
 
 
 with open("Atharva_veda.tsv", "w",encoding='utf-8') as outfile:
