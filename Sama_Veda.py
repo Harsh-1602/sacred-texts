@@ -34,5 +34,5 @@ def Samaveda_Scrap(url):
 
 result = Samaveda_Scrap(base_url)
 df = pd.DataFrame(decades)
-df.to_excel("Samaveda.xlsx")
+df.to_excel("Sama_Veda.xlsx")
 
