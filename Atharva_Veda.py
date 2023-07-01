@@ -33,5 +33,5 @@ for link in links:
 
 
 
-with open("Atharva_veda.tsv", "w",encoding='utf-8') as outfile:
+with open("Atharva_Veda.tsv", "w",encoding='utf-8') as outfile:
     outfile.write(text)

@@ -70,7 +70,7 @@ def katha(start,length):
     for ad_n,val_v,text_n,sloka_n in zip(adhyaya,valli,text_no,hymn):
         result+=ad_n+"\t"+val_v+"\t"+text_n+"\t"+sloka_n+"\n"
     
-    with open("Upanishad_Katha.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_2_Katha.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
 
 
@@ -172,7 +172,7 @@ def Brihadaranyaka(start,length):
         result+=ad_n+"\t"+brah_v+"\t"+text_n+"\t"+sloka_n+"\n"
         
         
-    with open("brihdaranyaka.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_2_Brihdaranyaka.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
 
 # Maitrayan upanishad
@@ -240,7 +240,7 @@ def Maitrayan(start,length):
         result+=pr_n+"\t"+text_n+"\t"+sloka_n+"\n"
         
     #print(result)    
-    with open("Upanishad_Maitrayan.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_2_Maitrayan.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
 
 # Function to get the hymns from Mundaka Upanishad
@@ -314,7 +314,7 @@ def Mundaka(start,length):
         result+=mun_n+"\t"+khan_n+"\t"+text_n+"\t"+sloka_n+"\n"
     
 
-    with open("Upanishad_mundaka.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_2_mundaka.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
 
 #  Taittiriyaka Upanishad
@@ -409,7 +409,7 @@ def Taittiriyaka(start,length):
         result+=valli_n+"\t"+anuv_v+"\t"+text_n+"\t"+sloka_n+"\n"
         
         
-    with open("Upanishad_Taittiriyaka.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_2_Taittiriyaka.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
 
 
@@ -462,7 +462,7 @@ def Svetasvatara(start,length):
         result+=ad_n+"\t"+text_n+"\t"+sloka_n+"\n"
         
         
-    with open("Upanishad_Svetasvatara.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_2_Svetasvatara.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
         
 # Prasana upanishad
@@ -514,7 +514,7 @@ def Prasna(start,length):
         result+=qu_n+"\t"+text_n+"\t"+sloka_n+"\n"
         
         
-    with open("Upanishad_Prasana.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_2_Prasana.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
         
     
