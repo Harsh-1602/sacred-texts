@@ -59,7 +59,7 @@ def kaushitaki(start,length):
         result+=adh_n+"\t"+text_n+"\t"+sloka_n+"\n"
         
         
-    with open("kaushutaki.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_1_Kaushutaki.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
         
 
@@ -112,7 +112,7 @@ def Talavakra(start,length):
         result+=khan_n+"\t"+text_n+"\t"+sloka_n+"\n"
         
         
-    with open("Talavakra.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_1_Talavakra.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
         
 #  Khandogya Upanishad 
@@ -231,9 +231,159 @@ def khandogya(start,length):
         result+=prap_n+"\t"+khan_v+"\t"+text_n+"\t"+sloka_n+"\n"
         
         
-    with open("khandogya.tsv", "w", encoding='utf-8') as outfile:
+    with open("Upanishad_Part_1_Khandogya.tsv", "w", encoding='utf-8') as outfile:
         outfile.write(result)
 
+# Airteya Upanishad
+
+
+def Aitareya(start,length):
+    text_no=[]
+    aranyaka=[]
+    adhyaya=[]
+    khanda=[]
+    hymn=[]
+   
+    #     mapping english to their corresponding numbers
+    number = {
+    "FIRST": 1,
+    "SECOND": 2,
+    "THIRD": 3,
+    "FOURTH": 4,
+    "FIFTH": 5,
+    "SIXTH": 6,
+    "SEVENTH": 7,
+    "EIGHTH": 8,
+    "NINTH": 9,
+    "TENTH": 10,
+    "ELEVENTH": 11,
+    "TWELFTH": 12,
+    "THIRTEENTH": 13,
+    "FOURTEENTH": 14,
+    "FIFTEENTH": 15,
+    "SIXTEENTH": 16,
+    "SEVENTEENTH": 17,
+    "EIGHTEENTH": 18,
+    "NINETEENTH": 19,
+    "TWENTIETH": 20,
+#     "TWENTY": 20,
+    "TWENTY-FIRST": 21,
+    "TWENTY-SECOND": 22,
+    "TWENTY-THIRD": 23,
+    "TWENTY-FOURTH": 24,
+    "TWENTY-FIFTH": 25,
+    "TWENTY-SIXTH": 26,
+    "TWENTY-SEVENTH": 27,
+    "TWENTY-EIGHTH": 28,
+    "TWENTY-NINTH": 29,
+    "THIRTIETH": 30
+            }
+    aran=str(1)
+    adh=str(1)
+    khan=str(1)
+    for i in range(length):
+#         no=start+1.zfill(5)
+        url=base_url+"sbe"+str(start+i).zfill(5)+".htm"
+        req = requests.get(url)
+        req.encoding = 'utf-8'
+        soup=bs4.BeautifulSoup(req.text,'html.parser')
+        
+        for a_tag in soup.find_all('a'):
+            a_tag.decompose()
+        for x in soup.find_all():
+    # fetching text from tag and remove whitespaces
+            if len(x.get_text(strip=True)) == 0:
+                # Remove empty tag
+                x.extract()
+
+        if soup.find_all('h1'):
+            elements = soup.find_all('h1')
+            if len(elements) >= 2:
+                texts = elements[1].text
+            else:
+                texts=elements[0].text
+            match = re.search(r'\b([A-Z]+)\b', texts)
+
+            if match:
+                top1 = match.group(1)
+            else:
+                top1 = ""
+            aran=str(number[top1])
+        
+        
+        if(soup.find_all('h2')):
+            texts=soup.find('h2').text
+#             print(text)
+            match = re.search(r'\b([A-Z]+)\b', texts)
+
+            if match:
+                top1 = match.group(1)
+            else:
+                top1 = ""
+            adh=str(number[top1])
+       
+        for i in soup.find_all('h3'):
+        # to ge only the first h3 tag 
+            texts=i.text
+            match = re.search(r'\b([A-Z-]+)\b', texts)
+
+            if match:
+                top = match.group(1)
+            else:
+                top = ""
+            khan=str(number[top])
+        
+            c=0 
+            ans=""
+            for j in i.next_siblings:
+                if j.name=='h3':
+                    c=1
+                    break
+
+                elif j.name=='p':
+#                     print(j.text)
+                    ans+=j.text       
+            
+
+            if c==1:
+                break
+            print(ans)
+        ans = re.sub(r'\([^)]*\d[^)]*\)', '', ans)# this removes all the text in the braces if it contains a letter
+
+#  Splitting the ans into lines by a number followed by a "." literal
+      
+        numbers = re.findall(r'(?<!\()\d+(?:-\d+)?(?!\))', ans)
+        numbers = [num.rstrip('.,:') for num in numbers]
+
+        # Replace numbers enclosed in parentheses with placeholders
+        text_with_placeholders = re.sub(r'\(\d+\)', lambda m: '({})'.format(len(m.group())), ans)
+
+        # Split the text using the modified numbers
+        texts = re.split(r'(?<!\()\d+(?:-\d+)?\.?\s?', text_with_placeholders)
+        texts = [t.strip() for t in texts if t.strip()]
+
+        # Replace the placeholders back with the original numbers
+        numbers = [re.sub(r'\((\d+)\)', r'\1', num) for num in numbers]
+        
+        ct=1
+        if len(numbers)==len(texts):
+            for x in range(len(numbers)):
+                text_no.append(str(numbers[x]));
+                hymn.append(texts[x])
+                aranyaka.append(aran)
+                adhyaya.append(adh)
+                khanda.append(khan)
+
+#             Storing all the values into result string
+    result="Aranyaka"+"\t"+"Adhyaya"+"\t"+"Khanda"+"\t"+"Text_no"+"\t"+"Hymn"+"\n"
+    for aran_n,adh_n,khan_v,text_n,sloka_n in zip(aranyaka,adhyaya,khanda,text_no,hymn):
+        result+=aran_n+"\t"+adh_n+"\t"+khan_v+"\t"+text_n+"\t"+sloka_n+"\n"
+        
+        
+    with open("Upanishad_Part_1_Aitareya.tsv", "w", encoding='utf-8') as outfile:
+        outfile.write(result)
+
+    
     
     
 

@@ -1,0 +1,63 @@
+import requests
+import bs4
+from tqdm import tqdm
+import pandas as pd
+from bs4 import BeautifulSoup, NavigableString
+import re
+import numpy as np
+base_url="https://www.sacred-texts.com/hin/bilhana/bil"
+
+
+text_no=[]
+hymn=[]
+ans=""
+url=base_url+"1".zfill(2)+".htm"
+print(url)
+req = requests.get(url)
+req.encoding = 'utf-8'
+soup=bs4.BeautifulSoup(req.text,'html.parser')
+# print(soup)
+for a_tag in soup.find_all('a'):
+        a_tag.decompose()
+for x in soup.find_all():
+# fetching text from tag and remove whitespaces
+    if len(x.get_text(strip=True)) == 0:
+        # Remove empty tag
+        x.extract()
+# removing the text with size as -1
+for font_tag in soup.find_all('font', size='-1'):
+    font_tag.decompose()
+
+p_tags=soup.find_all('p')[1:]
+x=1
+for i in p_tags: 
+    ans+=str(x)
+    ans+=i.text
+    x+=1
+print(ans)
+
+
+numbers = re.findall(r'(?<!\()\d+(?:-\d+)?(?!\))', ans)
+numbers = [num.rstrip('.,:') for num in numbers]
+
+# Replace numbers enclosed in parentheses with placeholders
+text_with_placeholders = re.sub(r'\(\d+\)', lambda m: '({})'.format(len(m.group())), ans)
+
+# Split the text using the modified numbers
+texts = re.split(r'(?<!\()\d+(?:-\d+)?\.?\s?', text_with_placeholders)
+texts = [t.strip() for t in texts if t.strip()]
+
+
+# Replace the placeholders back with the original numbers
+numbers = [re.sub(r'\((\d+)\)', r'\1', num) for num in numbers]
+
+for x in range(len(numbers)):
+    text_no.append(str(numbers[x]));
+    hymn.append(texts[x])
+    
+
+result="Stanza_no"+"\t"+"Hymn"+"\n"
+for text_n,sloka_n in zip(text_no,hymn):
+    result+=text_n+"\t"+sloka_n+"\n"
+with open("Black_Marigold.tsv", "w", encoding='utf-8') as outfile:
+    outfile.write(result)
